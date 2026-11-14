@@ -1,0 +1,24 @@
+nucleo:
+  ros__parameters:
+    stm_ip: "192.168.0.4"
+    stm_port: 2002
+    local_port: 2023
+    local_ip: ""
+    loop_hz: 33.33
+    rpm_max: 428.0
+    pwm_max: 225.0
+    pwm_scale: 0.932
+    odom_frame: "odom"
+    base_frame: "base_footprint"
+    yaw_offset_deg: 0.0
+    use_yaw_topic: true
+    yaw_topic: "/zed/yaw_deg"
+    yaw_topic_timeout: 0.5
+    cmd_vel_timeout: 0.5
+    smoothing_enable: true
+    linear_accel_limit: 2.5
+    angular_accel_limit: 7.0
+    stop_decel_scale: 2.0
+    pulses_per_rev: 7500.0
+    wheel_radius_cm: 5.0
+    base_length_cm: 20.8

@@ -1,0 +1,54 @@
+fusion_tracker_node:
+  ros__parameters:
+    # -------------------------------------------------------------------------
+    # 1. FRAME & ROS 2 TOPIC CONFIGURATION
+    # -------------------------------------------------------------------------
+    frame_base: "base_link"                  # Robot reference base frame
+    scan_topic: "/scan"                      # 360 RPLiDAR LaserScan topic
+    cmd_vel_topic: "/cmd_vel"                # Mobile base velocity command topic
+    control_rate_hz: 30.0                    # Asynchronous fusion control loop rate (Hz)
+
+    # -------------------------------------------------------------------------
+    # 2. TRACKING & SPATIOTEMPORAL GATING (100% ID-FREE)
+    # -------------------------------------------------------------------------
+    max_detection_range: 3.5                 # Maximum tracking detection range (meters)
+    max_lost_sec: 3.0                        # Watchdog timeout before filter reset (seconds)
+    occlusion_timeout_sec: 2.0               # Dead-reckoning duration during occlusion (seconds)
+    anti_intervening_margin: 0.45            # Margin to disqualify intervening bystanders (meters)
+    angle_weight: 0.35                       # Bearing angular deviation penalty in data association
+
+    # -------------------------------------------------------------------------
+    # 3. 360 LIDAR LEG SEGMENTATION (LEG DETECTOR)
+    # -------------------------------------------------------------------------
+    leg_cluster_dist: 0.15                   # Euclidean jump distance threshold between clusters (m)
+    leg_width_min: 0.04                      # Minimum cylinder width of a human leg (m)
+    leg_width_max: 0.40                      # Maximum cylinder width of a human leg (m)
+    leg_stride_min: 0.10                     # Minimum separation between two human legs (m)
+    leg_stride_max: 0.45                     # Maximum stride separation between two human legs (m)
+    leg_min_points: 3                        # Minimum laser beam reflection points per cluster
+
+    # -------------------------------------------------------------------------
+    # 4. STEREO OPTICS DEPTH ERROR (d^2) & CROWD NOISE MODELING
+    # -------------------------------------------------------------------------
+    enable_lidar_fusion: true                # Enable 360 LiDAR relay when target is out-of-FOV
+    kf_process_noise: 1.2                    # Kinematic process noise covariance Q (acceleration)
+    analytical_r_cam_base: 0.0225            # Baseline camera measurement noise at close range (m^2)
+    analytical_alpha_optics: 0.018           # Quadratic depth error degradation factor (alpha * d^2)
+    analytical_r_lidar_base: 0.040           # Baseline LiDAR leg cluster measurement noise (m^2)
+    analytical_beta_crowd: 0.035             # Noise penalty per neighboring bystander (beta * N_crowd)
+
+    # -------------------------------------------------------------------------
+    # 5. ROBOT MOTION FOLLOWER CONTROLLER (CMD_VEL)
+    # -------------------------------------------------------------------------
+    enable_robot_follow: false               # True: Robot moves to follow target, False: Track only
+    follow_target_distance: 0.90             # Desired stop distance behind tracked target (m)
+    follow_kp_linear: 0.70                   # Proportional gain for linear forward velocity
+    follow_kp_angular: 1.40                  # Proportional gain for angular steering velocity
+    follow_max_linear_vel: 0.55              # Maximum linear forward velocity clamp (m/s)
+    follow_max_angular_vel: 1.00             # Maximum angular steering velocity clamp (rad/s)
+
+    # -------------------------------------------------------------------------
+    # 6. RESEARCH TELEMETRY BENCHMARK LOGGER (CSV)
+    # -------------------------------------------------------------------------
+    enable_csv_logging: true                 # True: Automatically record telemetry to CSV
+    csv_log_path: "fusion_benchmark.csv"     # Output CSV file path for research analysis

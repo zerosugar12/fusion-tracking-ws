@@ -1,0 +1,23 @@
+# Colcon build directories
+build/
+install/
+log/
+
+# Exclude README per user request
+README.md
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Telemetry logs and benchmark figures
+*.csv
+*.png
+
+# OS / Editor temporary files
+.vscode/
+.idea/
+*.swp
+*~
+.DS_Store
